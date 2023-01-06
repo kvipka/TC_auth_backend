@@ -1,14 +1,14 @@
 package com.atwow.AuthBackend.services;
 
 import com.atwow.AuthBackend.jsons.requests.AccountCreateRq;
+import com.atwow.AuthBackend.jsons.requests.AccountVerifyRq;
 import com.atwow.AuthBackend.jsons.responses.BaseResponse;
 import com.atwow.AuthBackend.repos.AccountRepository;
 import com.atwow.AuthBackend.units.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.atwow.AuthBackend.helpers.HelperTCSRP6.calculateSRP6TCVerifier;
-import static com.atwow.AuthBackend.helpers.HelperTCSRP6.generateRandomSalt;
+import static com.atwow.AuthBackend.helpers.HelperTCSRP6.*;
 
 @Service
 public class AuthService {
@@ -24,6 +24,28 @@ public class AuthService {
             return account;
         }
         return new BaseResponse("Account not founded", 0);
+    }
+
+    public Object verifyAccount(AccountVerifyRq body) {
+        if (body.getAccount_name() == null ||
+                body.getAccount_name().length() < 1) {
+            return new BaseResponse("username should be exist (1-16 symbols)", 200);
+        }
+
+        if (body.getAccount_password() == null ||
+                body.getAccount_password().length() < 1) {
+            return new BaseResponse("password should be exist (1-16 symbols)", 201);
+        }
+
+        Account check = this.accountRepository.findByUsername(body.getAccount_name());
+        if (check == null) {
+            return new BaseResponse("Account with this username doesn't exist", 0);
+        }
+
+        if (verifySRP6(body.getAccount_name(), body.getAccount_password(), check.getSalt(), check.getVerifier())) {
+            return new BaseResponse("Login-Password correct", 0);
+        }
+        return new BaseResponse("Login-Password incorrect", 0);
     }
 
     public Object createAccount(AccountCreateRq body) {
