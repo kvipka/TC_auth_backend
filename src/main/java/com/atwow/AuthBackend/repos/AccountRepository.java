@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
-    @Cacheable("account")
+    @Cacheable("cache_account")
     Account findByUsername(String username);
 }
 

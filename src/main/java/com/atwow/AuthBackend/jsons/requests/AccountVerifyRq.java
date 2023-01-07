@@ -11,4 +11,12 @@ public class AccountVerifyRq {
     public String getAccount_password() {
         return account_password;
     }
+
+    @Override
+    public String toString() {
+        return "AccountVerifyRq{" +
+                "account_name='" + account_name + '\'' +
+                ", account_password='" + account_password + '\'' +
+                '}';
+    }
 }

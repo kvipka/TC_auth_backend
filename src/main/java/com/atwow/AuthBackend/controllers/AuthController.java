@@ -26,5 +26,10 @@ public class AuthController {
     public Object verifyWoWAccount(@RequestBody AccountVerifyRq rqBody) {
         return this.authService.verifyAccount(rqBody);
     }
+
+    @GetMapping("/getAccountAccess")
+    public Object getWoWAccountAccess(@RequestParam(value = "accID") Long accID) {
+        return this.authService.getAccountAccess(accID);
+    }
 }
 

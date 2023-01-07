@@ -17,4 +17,12 @@ public class AccountCreateRq {
         return account_email;
     }
 
+    @Override
+    public String toString() {
+        return "AccountCreateRq{" +
+                "account_name='" + account_name + '\'' +
+                ", account_password='" + account_password + '\'' +
+                ", account_email='" + account_email + '\'' +
+                '}';
+    }
 }

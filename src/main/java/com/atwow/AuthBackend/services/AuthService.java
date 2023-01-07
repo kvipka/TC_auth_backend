@@ -3,8 +3,10 @@ package com.atwow.AuthBackend.services;
 import com.atwow.AuthBackend.jsons.requests.AccountCreateRq;
 import com.atwow.AuthBackend.jsons.requests.AccountVerifyRq;
 import com.atwow.AuthBackend.jsons.responses.BaseResponse;
+import com.atwow.AuthBackend.repos.AccountAccessRepository;
 import com.atwow.AuthBackend.repos.AccountRepository;
 import com.atwow.AuthBackend.units.Account;
+import com.atwow.AuthBackend.units.AccountAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ import static com.atwow.AuthBackend.helpers.HelperTCSRP6.*;
 public class AuthService {
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    AccountAccessRepository accountAccessRepository;
 
-    public AuthService() {
-    }
-
+    /**
+     * Account section
+     */
     public Object getAccount(String accName) {
         Account account = this.accountRepository.findByUsername(accName);
         if (account != null) {
@@ -102,5 +106,16 @@ public class AuthService {
 
         this.accountRepository.save(account);
         return new BaseResponse("Account successfully created", 0);
+    }
+
+    /**
+     * AccountAccess section
+     */
+    public Object getAccountAccess(Long accID) {
+        AccountAccess accountAccess = this.accountAccessRepository.findByAccountID(accID);
+        if (accountAccess != null) {
+            return accountAccess;
+        }
+        return new BaseResponse("AccountAccess not founded", 0);
     }
 }

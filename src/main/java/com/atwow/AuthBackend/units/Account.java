@@ -253,7 +253,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "\nWoWAccount{" +
+        return "\nAccount{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", salt=" + Arrays.toString(salt) +
